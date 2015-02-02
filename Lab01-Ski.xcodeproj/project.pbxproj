@@ -34,8 +34,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		5324FF7B1A79BD7E00DA83E8 /* portrait-non-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "portrait-non-retina.png"; path = "../Downloads/portrait-non-retina.png"; sourceTree = "<group>"; };
-		5324FF7C1A79BD8800DA83E8 /* landscape-non-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "landscape-non-retina.png"; path = "../Downloads/landscape-non-retina.png"; sourceTree = "<group>"; };
 		53F496C01A707F1800381F3A /* Lab01-Ski.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lab01-Ski.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53F496C31A707F1800381F3A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		53F496C51A707F1800381F3A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -84,8 +82,6 @@
 		53F496B71A707F1800381F3A = {
 			isa = PBXGroup;
 			children = (
-				5324FF7C1A79BD8800DA83E8 /* landscape-non-retina.png */,
-				5324FF7B1A79BD7E00DA83E8 /* portrait-non-retina.png */,
 				53F496C91A707F1800381F3A /* Lab01-Ski */,
 				53F496E81A707F1800381F3A /* Lab01-SkiTests */,
 				53F496C21A707F1800381F3A /* Frameworks */,
