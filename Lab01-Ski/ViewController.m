@@ -19,6 +19,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *startCompetition;
 @property (weak, nonatomic) IBOutlet UIButton *buttonDNF;
 @property (weak, nonatomic) IBOutlet UITextView *textViewCourant;
+@property (weak, nonatomic) IBOutlet UILabel *lblPorte;
+
+@property (weak, nonatomic) IBOutlet UIStepper *stepperPorte;
+@property (weak, nonatomic) IBOutlet UIButton *btnConfirmer;
+
+
+
 
 
 @end
@@ -26,6 +33,7 @@
 @implementation ViewController
 {
     NSMutableArray *tableParticipantsData;
+    NSMutableDictionary *classement;
     int nextId;
     bool running;
     NSTimeInterval startTime;
@@ -37,6 +45,9 @@
     // Init table data?????
     tableParticipantsData = [[NSMutableArray alloc] init];
     nextId = 0;
+    classement = [[NSMutableDictionary alloc] init];
+    // use this for the classement
+    // key(participant) value(classement #)
     _TIMELabel.text=@"0:00.0";
     running = false;
 }
@@ -112,17 +123,24 @@
 
 - (IBAction)Start:(UIButton *)sender
 {
-    if(running == false){
+    if(!running){
         //Start timer
         running = true;
         startTime = [NSDate timeIntervalSinceReferenceDate];
         [sender setTitle:@"STOP" forState:UIControlStateNormal];
         [self updateTime];
+        self.stepperPorte.enabled = NO;
+        self.btnConfirmer.enabled = NO;
+        self.buttonDNF.enabled = YES;
     }
     else{
         //stop timer
         [sender setTitle:@"GO" forState:UIControlStateNormal];
         running = false;
+        self.stepperPorte.enabled = YES;
+        self.btnConfirmer.enabled = YES;
+        sender.enabled = NO;
+        self.buttonDNF.enabled = NO;
     }
 }
 - (IBAction)startCompetition:(UIButton *)sender {
@@ -133,7 +151,6 @@
         [tableParticipantsData removeAllObjects];
         [self.tableView reloadData];
         [sender setTitle:@"Commencer la compétition" forState:UIControlStateNormal];
-        self.buttonDNF.hidden = YES;
         self.textViewCourant.hidden = YES;
     }
     else {
@@ -147,7 +164,6 @@
         self.buttonGo.enabled = true;
         self.buttonAdd.enabled = false;
         self.buttonDNF.hidden = NO;
-        NSString *skyeurCourantText = @"";
         for(int i = 0; i < 3; i++) {
             if([tableParticipantsData count] == i) break;
             //NSLog(tableParticipantsData);
@@ -169,6 +185,24 @@
     
     sender.enabled = true;
     
+}
+
+- (IBAction)stepperValueChange:(UIStepper *)sender {
+    if(self.stepperPorte.value == 0 || self.stepperPorte.value == 1)
+        self.lblPorte.text = [NSString stringWithFormat:@"%d porte manquée", (int)self.stepperPorte.value];
+    else
+        self.lblPorte.text = [NSString stringWithFormat:@"%d portes manquées", (int)self.stepperPorte.value];
+}
+- (IBAction)confirmerDescenteClick:(UIButton *)sender {
+    self.buttonGo.enabled = YES;
+    self.btnConfirmer.enabled = NO;
+}
+- (IBAction)buttonDNFClick:(UIButton *)sender {
+    // more to handle later on...
+    
+    [self.buttonGo setTitle:@"GO" forState:UIControlStateNormal];
+    running = false;
+    self.buttonDNF.enabled = NO;
 }
 
 
