@@ -14,7 +14,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *fieldPays;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *TIMELabel;
-- (IBAction)buttonAdd:(UIButton *)sender;
+@property (weak, nonatomic) IBOutlet UIButton *buttonGo;
+@property (weak, nonatomic) IBOutlet UIButton *buttonAdd;
+@property (weak, nonatomic) IBOutlet UIButton *startCompetition;
+@property (weak, nonatomic) IBOutlet UIButton *buttonDNF;
+@property (weak, nonatomic) IBOutlet UITextView *textViewCourant;
+
+
 @end
 
 @implementation ViewController
@@ -119,6 +125,52 @@
         running = false;
     }
 }
+- (IBAction)startCompetition:(UIButton *)sender {
+    if([self.startCompetition.currentTitle isEqualToString:@"Arrêter la compétition"]) {
+        nextId = 0;
+        self.buttonGo.enabled = false;
+        self.buttonAdd.enabled = true;
+        [tableParticipantsData removeAllObjects];
+        [self.tableView reloadData];
+        [sender setTitle:@"Commencer la compétition" forState:UIControlStateNormal];
+        self.buttonDNF.hidden = YES;
+        self.textViewCourant.hidden = YES;
+    }
+    else {
+        if([tableParticipantsData count] == 0) {
+            NSLog(@"Doit avoir au moins un participant");
+            return;
+        }
+        self.fieldNom.text = @"";
+        self.fieldPays.text = @"";
+        self.fieldPrenom.text = @"";
+        self.buttonGo.enabled = true;
+        self.buttonAdd.enabled = false;
+        self.buttonDNF.hidden = NO;
+        NSString *skyeurCourantText = @"";
+        for(int i = 0; i < 3; i++) {
+            if([tableParticipantsData count] == i) break;
+            //NSLog(tableParticipantsData);
+            NSString *participant = [tableParticipantsData objectAtIndex:i];
+            if(i == 0) {
+                self.textViewCourant.text = [NSString stringWithFormat:@"Skyeur Courant: %@", participant];
+
+            } else if (i == 1) {
+                self.textViewCourant.text = [NSString stringWithFormat:@"%@\nProchain skyeur: %@", self.textViewCourant.text, participant];
+                
+            } else {
+                self.textViewCourant.text = [NSString stringWithFormat:@"%@\nTroisième skyeur: %@", self.textViewCourant.text, participant];
+                
+            }
+        }
+        self.textViewCourant.hidden = NO;
+        [sender setTitle:@"Arrêter la compétition" forState:UIControlStateNormal];
+    }
+    
+    sender.enabled = true;
+    
+}
+
 
 
 @end
