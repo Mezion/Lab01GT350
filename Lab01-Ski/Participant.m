@@ -1,0 +1,13 @@
+//
+//  Participant.m
+//  Lab01-Ski
+//
+//  Created by Bigras, Renaud on 2015-02-04.
+//  Copyright (c) 2015 Legault, Mathieu. All rights reserved.
+//
+
+#import "Participant.h"
+
+@implementation Participant
+
+@end
