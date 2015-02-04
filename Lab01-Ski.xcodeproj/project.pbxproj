@@ -21,6 +21,8 @@
 		53F496E51A707F1800381F3A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F496C71A707F1800381F3A /* UIKit.framework */; };
 		53F496ED1A707F1800381F3A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 53F496EB1A707F1800381F3A /* InfoPlist.strings */; };
 		53F496EF1A707F1800381F3A /* Lab01_SkiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F496EE1A707F1800381F3A /* Lab01_SkiTests.m */; };
+		EFDAAB5C1A8272AA00F087CA /* Participant.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDAAB5B1A8272AA00F087CA /* Participant.m */; };
+		EFDAAB5F1A82823500F087CA /* Result.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDAAB5E1A82823500F087CA /* Result.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,10 @@
 		53F496EA1A707F1800381F3A /* Lab01-SkiTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Lab01-SkiTests-Info.plist"; sourceTree = "<group>"; };
 		53F496EC1A707F1800381F3A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		53F496EE1A707F1800381F3A /* Lab01_SkiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lab01_SkiTests.m; sourceTree = "<group>"; };
+		EFDAAB5A1A8272AA00F087CA /* Participant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Participant.h; sourceTree = "<group>"; };
+		EFDAAB5B1A8272AA00F087CA /* Participant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Participant.m; sourceTree = "<group>"; };
+		EFDAAB5D1A82823500F087CA /* Result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Result.h; sourceTree = "<group>"; };
+		EFDAAB5E1A82823500F087CA /* Result.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Result.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +125,10 @@
 				53F496D91A707F1800381F3A /* ViewController.m */,
 				53F496DB1A707F1800381F3A /* Images.xcassets */,
 				53F496CA1A707F1800381F3A /* Supporting Files */,
+				EFDAAB5A1A8272AA00F087CA /* Participant.h */,
+				EFDAAB5B1A8272AA00F087CA /* Participant.m */,
+				EFDAAB5D1A82823500F087CA /* Result.h */,
+				EFDAAB5E1A82823500F087CA /* Result.m */,
 			);
 			path = "Lab01-Ski";
 			sourceTree = "<group>";
@@ -251,7 +261,9 @@
 			files = (
 				53F496DA1A707F1800381F3A /* ViewController.m in Sources */,
 				53F496D41A707F1800381F3A /* AppDelegate.m in Sources */,
+				EFDAAB5F1A82823500F087CA /* Result.m in Sources */,
 				53F496D01A707F1800381F3A /* main.m in Sources */,
+				EFDAAB5C1A8272AA00F087CA /* Participant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

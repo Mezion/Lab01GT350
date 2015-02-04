@@ -9,5 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface Result : NSObject
+{
+    NSTimeInterval time;
+}
+
+-(void) setTime: (NSTimeInterval) t;
+-(NSTimeInterval) getTime;
+-(NSString*) getTimeAsString;
 
 @end

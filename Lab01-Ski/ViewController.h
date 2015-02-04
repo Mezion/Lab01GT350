@@ -10,4 +10,7 @@
 
 @interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
+-(void) setCurrentRunner;
+-(BOOL) checkIfCompetitionOver;
+
 @end

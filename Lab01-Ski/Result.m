@@ -10,4 +10,29 @@
 
 @implementation Result
 
+- (id)init
+{
+    self = [super init];
+    if (self)
+    {
+        time = -1.0;
+    }
+    return self;
+}
+
+-(void) setTime: (NSTimeInterval) t
+{
+    time = t;
+}
+
+-(NSTimeInterval) getTime
+{
+    return time;
+}
+
+-(NSString*) getTimeAsString
+{
+    return @"";
+}
+
 @end
