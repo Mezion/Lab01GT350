@@ -29,7 +29,8 @@
 -(NSString*) getPays;
 -(int) getId;
 -(NSMutableArray*) getResultats;
--(void) getSumOfResults;
+-(NSNumber*) getSumOfResults;
+- (NSComparisonResult)compare:(Participant *)otherObject;
 
 
 @end

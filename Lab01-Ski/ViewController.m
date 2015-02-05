@@ -25,12 +25,14 @@
 @property (weak, nonatomic) IBOutlet UIButton *btnConfirmer;
 @property (weak, nonatomic) IBOutlet UILabel *lblCourseNb;
 @property (weak, nonatomic) IBOutlet UITableView *tableResults;
+@property (weak, nonatomic) IBOutlet UILabel *lblFinal;
 
 @end
 
 @implementation ViewController
 {
     NSMutableArray *tableParticipantsData;
+    NSMutableArray *tableParticipantsResults;
     NSMutableDictionary *classement;
     int nextId;
     bool running;
@@ -43,9 +45,10 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     // Init table data?????
-    tableParticipantsData = [NSMutableArray new];
+    tableParticipantsData = [[NSMutableArray alloc] init];
+    tableParticipantsResults = [NSMutableArray new];
     nextId = 0;
-    classement = [NSMutableDictionary new];
+    classement = [[NSMutableDictionary alloc] init];
     // use this for the classement
     // key(participant) value(classement #)
     _TIMELabel.text=@"0:00.0";
@@ -62,45 +65,59 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [tableParticipantsData count];
+    if(tableView == self.tableView)
+    {
+        return [tableParticipantsData count];
+    }
+    else if(tableView == self.tableResults)
+    {
+        return [tableParticipantsResults count];
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *partTableIdentifier = @"PartTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:partTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:partTableIdentifier];
+    if(tableView == self.tableView){
+        static NSString *partTableIdentifier = @"PartTableItem";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:partTableIdentifier];
+        
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:partTableIdentifier];
+        }
+        
+        Participant *participant = [tableParticipantsData objectAtIndex:indexPath.row];
+        NSString *cellText = [NSString stringWithFormat:@"%@%@%@%@%@%@%d%@", participant.getPrenom, @" ", participant.getNom, @" | ", participant.getPays, @" | ", participant.getId, @" "];
+        cell.textLabel.text = cellText;
+        return cell;
+    }
+    else if(tableView == self.tableResults){
+        static NSString *resultTableIdentifier = @"ResultTableItem";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:resultTableIdentifier];
+        
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:resultTableIdentifier];
+        }
+        
+        //Participant *participant = [classement objectForKey:[tableParticipantsResults objectAtIndex:indexPath.row]];
+        NSArray *sortedArray;
+        sortedArray = [tableParticipantsResults sortedArrayUsingSelector:@selector(compare:)];
+        Participant *participant = [sortedArray objectAtIndex:indexPath.row];
+        NSString *cellText2 = [NSString stringWithFormat:@"%@%d%@%@%@%@%@%f", @"Pos:", indexPath.row, @" | ", participant.getPrenom, @" ", participant.getNom, @" | Temps total: ", participant.getSumOfResults.doubleValue];
+        cell.textLabel.text = cellText2;
+        return cell;
+    }
+    else
+    {
+        return NULL;
     }
     
-
-    NSString *cellText;
-    cell.textLabel.text = cellText;
-    return cell;
-}
-
-- (NSInteger)tableResults:(UITableView *)tableResults numberOfRowsInSection:(NSInteger)section
-{
-    return [tableParticipantsData count];
-}
-
-- (UITableViewCell *)tableResults:(UITableView *)tableResults cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *resultTableIdentifier = @"ResultTableItem";
     
-    UITableViewCell *cell = [tableResults dequeueReusableCellWithIdentifier:resultTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:resultTableIdentifier];
-    }
-    
-    Participant *participant = [tableParticipantsData objectAtIndex:indexPath.row];
-    
-    NSString *cellText = [NSString stringWithFormat:@"%@%@%@%@%@%@%d%@", participant.getPrenom, @" ", participant.getNom, @" | ", participant.getPays, @" | ", participant.getId, @" "];
-    cell.textLabel.text = cellText;
-    return cell;
 }
 
 - (IBAction)buttonAdd:(UIButton *)sender {
@@ -243,12 +260,21 @@
         NSString *name = [NSString stringWithFormat:@"%@%@%@%@%d", participant.getPrenom, @" ", participant.getNom, @" | ", participant.getId];
         if(i == 0) {
             courant = participant;
-            self.textViewCourant.text = [NSString stringWithFormat:@"Skyeur Courant: %@", name];
+            if([participant.getResultats count] < 2)
+            {
+                self.textViewCourant.text = [NSString stringWithFormat:@"Skyeur Courant: %@", name];
+            }
             self.lblCourseNb.text = [NSString stringWithFormat:@"%@%d", @"Course #: ", [[courant getResultats] count] +1];
         } else if (i == 1) {
-            self.textViewCourant.text = [NSString stringWithFormat:@"%@\nProchain skyeur: %@", self.textViewCourant.text, name];
+            if([participant.getResultats count] < 2)
+            {
+                self.textViewCourant.text = [NSString stringWithFormat:@"%@\nProchain skyeur: %@", self.textViewCourant.text, name];
+            }
         } else {
-            self.textViewCourant.text = [NSString stringWithFormat:@"%@\nTroisième skyeur: %@", self.textViewCourant.text, name];
+            if([participant.getResultats count] < 2)
+            {
+                self.textViewCourant.text = [NSString stringWithFormat:@"%@\nTroisième skyeur: %@", self.textViewCourant.text, name];
+            }
         }
     }
 }
@@ -268,6 +294,13 @@
     return isOver;
 }
 
+-(void) updateClassement
+{
+    [tableParticipantsResults removeAllObjects];
+    [tableParticipantsResults addObjectsFromArray:tableParticipantsData];
+    [self.tableResults reloadData];
+}
+
 - (IBAction)stepperValueChange:(UIStepper *)sender {
     if(self.stepperPorte.value == 0 || self.stepperPorte.value == 1)
         self.lblPorte.text = [NSString stringWithFormat:@"%d porte manquée", (int)self.stepperPorte.value];
@@ -281,6 +314,7 @@
     _TIMELabel.text = [NSString stringWithFormat:@"%u:%02u.%u", 0, 0, 0];
     NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
     NSTimeInterval elapsed = currentTime - startTime;
+    elapsed += (self.stepperPorte.value * 30.0);
     Result *resultat = [Result new];
     [resultat setTime:elapsed];
     
@@ -290,11 +324,14 @@
     //send runner back
     [tableParticipantsData removeObjectAtIndex:0];
     [tableParticipantsData insertObject:courant atIndex:([tableParticipantsData count])];
-    //[self.tableView reloadData];
+    
+    //update classement
+    [self updateClassement];
     
     //check if competition over, if not proceed
     if([self checkIfCompetitionOver])
     {
+        [self setCurrentRunner];
         self.buttonDNF.enabled = NO;
         self.buttonDNF.alpha = 0.25;
         self.buttonGo.enabled = NO;
@@ -302,6 +339,16 @@
         self.btnConfirmer.enabled = NO;
         self.btnConfirmer.alpha = 0.25;
         self.lblCourseNb.text = @"Courses terminées.";
+        
+        [tableParticipantsResults removeAllObjects];
+        [tableParticipantsResults addObjectsFromArray:tableParticipantsData];
+        for(int i=3; i<[tableParticipantsResults count]; i++)
+        {
+            [tableParticipantsResults removeObjectAtIndex:i];
+        }
+        self.lblFinal.hidden = NO;
+        
+        [self.tableResults reloadData];
     }
     else
     {
@@ -312,44 +359,68 @@
         self.btnConfirmer.alpha = 0.25;
     }
 }
+
 - (IBAction)buttonDNFClick:(UIButton *)sender {
-    [self.buttonGo setTitle:@"GO" forState:UIControlStateNormal];
-    running = false;
-    self.buttonDNF.enabled = NO;
-    self.buttonDNF.alpha = 0.25;
-    _TIMELabel.text = [NSString stringWithFormat:@"%u:%02u.%u", 0, 0, 0];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Voulez vous disqualifier ce joueur? " delegate:self cancelButtonTitle:@"Non" otherButtonTitles:@"Oui", nil];
+    [alert show];
     
-    //give runner a null result entry & send runner to back
-    //give result
-    Result *resultat = [Result new];
-    [courant addResult:resultat];
-    
-    //send runner back
-    [tableParticipantsData removeObjectAtIndex:0];
-    [tableParticipantsData insertObject:courant atIndex:([tableParticipantsData count])];
-    //[self.tableView reloadData];
-    
-    //check if competition over, if not proceed
-    if([self checkIfCompetitionOver])
-    {
+}
+
+- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    //Checks For Approval
+    if (buttonIndex == 1) {
+        [self.buttonGo setTitle:@"GO" forState:UIControlStateNormal];
+        running = false;
         self.buttonDNF.enabled = NO;
         self.buttonDNF.alpha = 0.25;
-        self.buttonGo.enabled = NO;
-        self.buttonGo.alpha = 0.25;
-        self.btnConfirmer.enabled = NO;
-        self.btnConfirmer.alpha = 0.25;
-        self.lblCourseNb.text = @"Courses terminées.";
+        _TIMELabel.text = [NSString stringWithFormat:@"%u:%02u.%u", 0, 0, 0];
+        
+        //give runner a null result entry & send runner to back
+        //give result
+        Result *resultat = [Result new];
+        [resultat setTime:999.999];
+        [courant addResult:resultat];
+        
+        //send runner back
+        [tableParticipantsData removeObjectAtIndex:0];
+        [tableParticipantsData insertObject:courant atIndex:([tableParticipantsData count])];
+        
+        //update classement
+        [self updateClassement];
+        
+        //check if competition over, if not proceed
+        if([self checkIfCompetitionOver])
+        {
+            [self setCurrentRunner];
+            self.buttonDNF.enabled = NO;
+            self.buttonDNF.alpha = 0.25;
+            self.buttonGo.enabled = NO;
+            self.buttonGo.alpha = 0.25;
+            self.btnConfirmer.enabled = NO;
+            self.btnConfirmer.alpha = 0.25;
+            self.lblCourseNb.text = @"Courses terminées.";
+            
+            [tableParticipantsResults removeAllObjects];
+            [tableParticipantsResults addObjectsFromArray:tableParticipantsData];
+            for(int i=3; i<[tableParticipantsResults count]; i++)
+            {
+                [tableParticipantsResults removeObjectAtIndex:i];
+            }
+            self.lblFinal.hidden = NO;
+            
+            [self.tableResults reloadData];
+        }
+        else
+        {
+            [self setCurrentRunner];
+            self.buttonGo.enabled = YES;
+            self.buttonGo.alpha = 1.0;
+            self.btnConfirmer.enabled = NO;
+            self.btnConfirmer.alpha = 0.25;
+        }
+    } else {
+        //do nothing because they selected no
     }
-    else
-    {
-        [self setCurrentRunner];
-        self.buttonGo.enabled = YES;
-        self.buttonGo.alpha = 1.0;
-        self.btnConfirmer.enabled = NO;
-        self.btnConfirmer.alpha = 0.25;
-    }
-    
-    
 }
 
 

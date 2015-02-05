@@ -82,8 +82,18 @@
     return resultats;
 }
 
--(void) getSumOfResults{
-    
+-(NSNumber*) getSumOfResults{
+    double d = 0.0;
+    for(Result* result in resultats)
+    {
+        d += result.getTime;
+    }
+    NSNumber *value = [NSNumber numberWithDouble:d];
+    return value;
+}
+
+- (NSComparisonResult)compare:(Participant *)otherObject {
+    return [self.getSumOfResults compare:otherObject.getSumOfResults];
 }
 
 @end

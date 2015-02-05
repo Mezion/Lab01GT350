@@ -179,7 +179,18 @@
                                 <rect key="frame" x="684" y="177" width="320" height="379"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="tEI-iG-dlK"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="D0f-8y-sGQ"/>
+                                </connections>
                             </tableView>
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Positions finales" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3K-pL-B6a">
+                                <rect key="frame" x="782" y="140" width="125" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -195,6 +206,7 @@
                         <outlet property="fieldPays" destination="vVB-mZ-LBn" id="hVE-2x-tgE"/>
                         <outlet property="fieldPrenom" destination="hIa-Ea-6Gd" id="yKC-44-Xew"/>
                         <outlet property="lblCourseNb" destination="uuE-wf-UB9" id="aCW-1r-17Y"/>
+                        <outlet property="lblFinal" destination="c3K-pL-B6a" id="fX9-Pb-p4D"/>
                         <outlet property="lblPorte" destination="DFy-yS-9SC" id="Sdp-O6-ckF"/>
                         <outlet property="startCompetition" destination="23J-Ce-l5A" id="GQH-MD-xuM"/>
                         <outlet property="stepperPorte" destination="7at-Ov-bEI" id="9uR-PD-Gtq"/>

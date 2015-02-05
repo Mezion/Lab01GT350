@@ -12,5 +12,6 @@
 
 -(void) setCurrentRunner;
 -(BOOL) checkIfCompetitionOver;
+-(void) updateClassement;
 
 @end
