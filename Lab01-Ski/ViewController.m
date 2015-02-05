@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblCourseNb;
 @property (weak, nonatomic) IBOutlet UITableView *tableResults;
 @property (weak, nonatomic) IBOutlet UILabel *lblFinal;
+    @property (weak, nonatomic) IBOutlet UITextView *textViewDescentes;
 
 @end
 
@@ -33,6 +34,7 @@
 {
     NSMutableArray *tableParticipantsData;
     NSMutableArray *tableParticipantsResults;
+    NSMutableArray *tableStaticParticipantData;
     NSMutableDictionary *classement;
     int nextId;
     bool running;
@@ -215,6 +217,7 @@
         [sender setTitle:@"Commencer la compétition" forState:UIControlStateNormal];
         self.buttonDNF.hidden = YES;
         self.textViewCourant.hidden = YES;
+        self.textViewDescentes.hidden = YES;
     }
     else {
         if([tableParticipantsData count] == 0) {
@@ -226,6 +229,7 @@
             [alert show];
             return;
         }
+        tableStaticParticipantData = [NSMutableArray arrayWithArray:tableParticipantsData];
         self.fieldNom.text = @"";
         self.fieldPays.text = @"";
         self.fieldPrenom.text = @"";
@@ -241,7 +245,9 @@
         self.buttonAdd.alpha = 0.25;
         self.buttonDNF.hidden = NO;
         [self setCurrentRunner];
+        [self setDescentesAVenir];
         self.textViewCourant.hidden = NO;
+        self.textViewDescentes.hidden = NO;
         [sender setTitle:@"Arrêter la compétition" forState:UIControlStateNormal];
         [sender setEnabled:NO];
         [sender setAlpha:0.25];
@@ -278,6 +284,49 @@
         }
     }
 }
+    
+    -(void) setDescentesAVenir
+    {
+        self.textViewDescentes.text = @"";
+        
+        // premiere descente
+        bool isOver = false;
+        int nextNumber = 1;
+        bool doItTwice = false;
+        if([courant.getResultats count] == 0) {
+            // deuxieme fois qu'on passe dans l'array
+            doItTwice = true;
+        }
+        int i = courant.getId+1;
+        
+        while (!isOver) {
+            if(i == [tableStaticParticipantData count]) {
+                break;
+            }
+            Participant *participant = [tableStaticParticipantData objectAtIndex:i];
+            NSString *name = [NSString stringWithFormat:@"%@%@%@%@%d", participant.getPrenom, @" ", participant.getNom, @" | ", participant.getId];
+            self.textViewDescentes.text = [NSString stringWithFormat:@"%@\nSkyeur # %d: %@", self.textViewDescentes.text, nextNumber, name];
+            nextNumber++;
+            i++;
+        }
+        i = 0;
+        isOver = false;
+        
+        if(doItTwice) {
+            while(!isOver) {
+                if(i == [tableStaticParticipantData count]) {
+                    break;
+                }
+                Participant *participant = [tableStaticParticipantData objectAtIndex:i];
+                NSString *name = [NSString stringWithFormat:@"%@%@%@%@%d", participant.getPrenom, @" ", participant.getNom, @" | ", participant.getId];
+                self.textViewDescentes.text = [NSString     stringWithFormat:@"%@\nSkyeur # %d: %@",    self.textViewDescentes.text, nextNumber, name];
+                nextNumber++;
+                i++;
+                
+            }
+        }
+        /*self.textViewDescentes.text = [NSString stringWithFormat: @"%d", i];*/
+    }
 
 -(BOOL) checkIfCompetitionOver
 {
@@ -353,6 +402,7 @@
     else
     {
         [self setCurrentRunner];
+        [self setDescentesAVenir];
         self.buttonGo.enabled = YES;
         self.buttonGo.alpha = 1.0;
         self.btnConfirmer.enabled = NO;
