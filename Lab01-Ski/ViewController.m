@@ -363,7 +363,10 @@
     _TIMELabel.text = [NSString stringWithFormat:@"%u:%02u.%u", 0, 0, 0];
     NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
     NSTimeInterval elapsed = currentTime - startTime;
-    elapsed += (self.stepperPorte.value * 30.0);
+    if(self.stepperPorte.value >= 1 && self.stepperPorte.value >= 2)
+        elapsed += (self.stepperPorte.value * 30.0);
+    if(self.stepperPorte.value == 3)
+        elapsed += (999.99);
     Result *resultat = [Result new];
     [resultat setTime:elapsed];
     
